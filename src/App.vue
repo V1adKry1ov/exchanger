@@ -1,28 +1,40 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <Purchase :valutesArray="valutesArray"/>
+    <Rates :valutesArray="valutesArray"/>
+    <Balance :balance="balanceFilter"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Purchase from "@/components/Purchase"
+import Rates from "@/components/Rates"
+import Balance from "@/components/Balance"
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    Purchase,
+    Rates,
+    Balance
+  }, 
+  data() {
+    return {
+      valutesArray: null
+    }
+  },
+  created() {
+    this.$store.dispatch('addValutes')
+    this.valutesArray = this.$store.getters.getValutes
+  },
+  computed: {
+    balanceFilter() {
+      let balance = this.$store.getters.getBalance
+      return balance
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
